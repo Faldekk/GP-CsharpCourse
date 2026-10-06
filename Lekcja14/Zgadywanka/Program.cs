@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Threading;
 
@@ -7,10 +6,10 @@ class Gra
 {
     static void Main()
     {
-        List<string> rysunkiWisielca = UtworzRysunkiWisielca(); // LISTA
-        List<string> listaHasel = UtworzListeHasel();           // LISTA
+        List<string> rysunkiWisielca = UtworzRysunkiWisielca(); 
+        List<string> listaHasel = UtworzListeHasel();           
 
-        while (true) // ponowna gra
+        while (true) 
         {
             ZagrajJednaGre(rysunkiWisielca, listaHasel);
 
@@ -98,14 +97,10 @@ class Gra
             // Wymyśl hasła
         };
     }
-
-    // Metoda losująca jedno hasło z listy haseł (LISTA)
-    static string WylosujHaslo(List<string> listaHasel)
+        static string WylosujHaslo(List<string> listaHasel)
     {
        throw new NotImplementedException();
     }
-
-    // Metoda zakrywająca litery w haśle za pomocą znaków '_' oraz licząca znaki, które nie są literami
     static (string zakryteHaslo, int liczbaNieLiter) ZakryjHaslo(string wylosowaneHaslo)
     {
         int liczbaNieLiter = 0;
@@ -117,8 +112,7 @@ class Gra
         return (zakryteHaslo, liczbaNieLiter);
     }
 
-    // NOWA METODA #1: Mechanika jednorazowej podpowiedzi (losowa litera)
-    // Zwraca: zaktualizowane hasło do wyświetlenia + ile liter odsłonięto dzięki podpowiedzi
+    
     static (string noweHasloDoWyswietlenia, int ileOdsłonieto) UzyjPodpowiedzi(
         string wylosowaneHaslo,
         string hasloDoWyswietlenia,
@@ -140,7 +134,7 @@ class Gra
             return (hasloDoWyswietlenia, 0);
 
         Random rng = new Random();
-        char podpowiedz = 'c'; // Napisz logikę do podpowiedzi losowej 
+        char podpowiedz = 'c'; 
 
         int ods = 0;
         for (int i = 0; i < wylosowaneHaslo.Length; i++)
@@ -179,8 +173,7 @@ class Gra
         Console.WriteLine("==============================");
     }
 
-    // Metoda realizująca główną logikę gry (LISTA: rysunki)
-    // Zwraca statystyki: (czyWygrana, liczbaProb, liczbaPomylek, liczbaOdsłoniętychLiter)
+
 
     static void OdgadujHaslo(
     string wylosowaneHaslo,
@@ -191,6 +184,7 @@ class Gra
     int liczbaPomylek = 0;
     int liczbaOdslonietychLiter = 0;
     string uzyteLitery = "";
+    // To piszemy razem :)
 
     throw new NotImplementedException();
     }
