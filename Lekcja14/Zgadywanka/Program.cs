@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using System.Threading;
 
-class Gra
+class HelloWorld
 {
     static void Main()
     {
-        List<string> rysunkiWisielca = UtworzRysunkiWisielca(); 
-        List<string> listaHasel = UtworzListeHasel();           
+        List<string> rysunkiWisielca = UtworzRysunkiWisielca(); // LISTA
+        List<string> listaHasel = UtworzListeHasel();           // LISTA
 
-        while (true) 
+        while (true) // ponowna gra
         {
             ZagrajJednaGre(rysunkiWisielca, listaHasel);
 
@@ -18,11 +18,19 @@ class Gra
         }
     }
 
+    // Uruchamia jedną pełną rozgrywkę
     static void ZagrajJednaGre(List<string> rysunkiWisielca, List<string> listaHasel)
     {
-        throw new NotImplementedException();
+        string wylosowaneHaslo = WylosujHaslo(listaHasel);
+        (string hasloDoWyswietlenia, int liczbaNieLiter) = ZakryjHaslo(wylosowaneHaslo);
+
+        (bool wygrana, int proby, int pomylki, int odsloniete) =
+            OdgadujHaslo(wylosowaneHaslo, hasloDoWyswietlenia, liczbaNieLiter, rysunkiWisielca);
+
+        PokazPodsumowanie(wygrana, wylosowaneHaslo, proby, pomylki, odsloniete, liczbaNieLiter);
     }
 
+    // Metoda tworząca rysunki wisielca na różnych etapach gry (LISTA)
     static List<string> UtworzRysunkiWisielca()
     {
         return new List<string>
@@ -90,21 +98,31 @@ class Gra
     // Metoda tworząca listę haseł (LISTA)
     static List<string> UtworzListeHasel()
     {
-        return new List<string>{ "fireball", "kopulacja", "Indu", "Staruwka" , "Sauron" , "FC Barcelona"};
+        return new List<string>
+        {
+            "programista",
+            "obóz",
+            "środowisko",
+            "język programowania",
+            "gigant"
+        };
     }
-        static string WylosujHaslo(List<string> listaHasel)
-    {
-        Random rng = new Random();
-        int liczba = rng.Next(0,listaHasel.Count);
-        return listaHasel[liczba];
 
+    // Metoda losująca jedno hasło z listy haseł (LISTA)
+    static string WylosujHaslo(List<string> listaHasel)
+    {
+        Random maszynaLosujaca = new Random();
+        int wylosowanyNumerHasla = maszynaLosujaca.Next(0, listaHasel.Count);
+        return listaHasel[wylosowanyNumerHasla];
     }
+
+    // Metoda zakrywająca litery w haśle za pomocą znaków '_' oraz licząca znaki, które nie są literami
     static (string zakryteHaslo, int liczbaNieLiter) ZakryjHaslo(string wylosowaneHaslo)
     {
         int liczbaNieLiter = 0;
         char[] hasloDoWyswietlenia = new char[wylosowaneHaslo.Length];
 
-        for(int i = 0; i < wylosowaneHaslo.Length; i++)
+        for (int i = 0; i < wylosowaneHaslo.Length; i++)
         {
             char znak = wylosowaneHaslo[i];
 
@@ -114,7 +132,7 @@ class Gra
             }
             else
             {
-                hasloDoWyswietlenia[i] = znak; 
+                hasloDoWyswietlenia[i] = znak;
                 liczbaNieLiter++;
             }
         }
@@ -122,6 +140,9 @@ class Gra
         string zakryteHaslo = new string(hasloDoWyswietlenia);
         return (zakryteHaslo, liczbaNieLiter);
     }
+
+    // NOWA METODA #1: Mechanika jednorazowej podpowiedzi (losowa litera)
+    // Zwraca: zaktualizowane hasło do wyświetlenia + ile liter odsłonięto dzięki podpowiedzi
     static (string noweHasloDoWyswietlenia, int ileOdsłonieto) UzyjPodpowiedzi(
         string wylosowaneHaslo,
         string hasloDoWyswietlenia,
@@ -143,16 +164,16 @@ class Gra
             return (hasloDoWyswietlenia, 0);
 
         Random rng = new Random();
-        char podpowiedz = '?'; 
+        char podpowiedz = ukryteLitery[rng.Next(0, ukryteLitery.Count)];
 
         int ods = 0;
         for (int i = 0; i < wylosowaneHaslo.Length; i++)
         {
             if (wylosowaneHaslo[i] == podpowiedz && hasloDoWyswietlenia[i] == '_')
             {
-               hasloDoWyswietlenia = hasloDoWyswietlenia.Remove(i,1);
-               hasloDoWyswietlenia = hasloDoWyswietlenia.Insert(i, podpowiedz.ToString());
-               ods++;
+                hasloDoWyswietlenia = hasloDoWyswietlenia.Remove(i, 1);
+                hasloDoWyswietlenia = hasloDoWyswietlenia.Insert(i, podpowiedz.ToString());
+                ods++;
             }
         }
 
@@ -162,15 +183,15 @@ class Gra
         return (hasloDoWyswietlenia, ods);
     }
 
-  
+    // NOWA METODA #2: Pytanie o ponowną grę
     static bool CzyZagracPonownie()
     {
         Console.Write("\nCzy chcesz zagrać ponownie? (t/n): ");
         string odp = (Console.ReadLine() ?? "").Trim().ToLower();
-        throw new NotImplementedException(); // napisz poprawny return 
+        return odp == "t" || odp == "tak";
     }
 
-    
+    // NOWA METODA #3: Podsumowanie gry
     static void PokazPodsumowanie(bool wygrana, string haslo, int proby, int pomylki, int odsloniete, int liczbaNieLiter)
     {
         int literyDoOdgadniecia = haslo.Length - liczbaNieLiter;
@@ -184,56 +205,95 @@ class Gra
         Console.WriteLine("==============================");
     }
 
-
-
-    static void OdgadujHaslo(
-    string wylosowaneHaslo,
-    string hasloDoWyswietlenia,
-    int liczbaNieLiter,
-    List<string> rysunkiWisielca)
+    // Metoda realizująca główną logikę gry (LISTA: rysunki)
+    // Zwraca statystyki: (czyWygrana, liczbaProb, liczbaPomylek, liczbaOdsłoniętychLiter)
+    static (bool wygrana, int proby, int pomylki, int odslonieteLitery) OdgadujHaslo(
+        string wylosowaneHaslo,
+        string hasloDoWyswietlenia,
+        int liczbaNieLiter,
+        List<string> rysunkiWisielca)
     {
-    int liczbaPomylek = 0;
-    int liczbaOdslonietychLiter = 0;
-    int liczbaProb = 0;
-    string uzyteLitery = "";
+        int liczbaPomylek = 0;
+        int liczbaOdslonietychLiter = 0;
+        int liczbaProb = 0;
 
-    bool podpowiedzuzyta = false;
+        string uzyteLitery = "";
+
+        bool podpowiedzUzyta = false; // tylko jedna podpowiedź
 
         while (liczbaOdslonietychLiter < wylosowaneHaslo.Length - liczbaNieLiter)
         {
             Console.Clear();
             Console.WriteLine(hasloDoWyswietlenia);
+            Console.WriteLine(rysunkiWisielca[liczbaPomylek]);
             Console.WriteLine($"Użyte litery: {uzyteLitery}");
-            if(podpowiedzuzyta == true)
-                Console.WriteLine("Aby dostać podpowiedź napisz ? ");
-
+            Console.WriteLine("Aby użyć jednorazowej podpowiedzi wpisz znak: ?");
             Console.Write("Podaj literę: ");
 
             string wejscie = Console.ReadLine() ?? "";
-            if(wejscie.Length == 0)
+            if (wejscie.Length == 0)
                 continue;
-            
-            if(wejscie[0] == '?')
+
+            // Podpowiedź: komenda "?"
+            if (wejscie[0] == '?')
             {
-                if (podpowiedzuzyta)
+                if (podpowiedzUzyta)
                 {
-                    Console.WriteLine("Nie oszukuj już zużyłeś");
+                    Console.WriteLine("Podpowiedź została już wykorzystana.");
                     Thread.Sleep(1200);
                     continue;
                 }
                 int ods;
-                (hasloDoWyswietlenia,ods) = UzyjPodpowiedzi(wylosowaneHaslo,hasloDoWyswietlenia, uzyteLitery);
+
+                (hasloDoWyswietlenia, ods) = UzyjPodpowiedzi(wylosowaneHaslo, hasloDoWyswietlenia, uzyteLitery);
                 liczbaOdslonietychLiter += ods;
-                podpowiedzuzyta = true;
-                liczbaProb++;
+                podpowiedzUzyta = true;
+                liczbaProb++; // traktujemy jako próbę
                 continue;
             }
 
-                
+            char wpisanaLitera = wejscie[0];
+            liczbaProb++;
 
+            if (!uzyteLitery.Contains(wpisanaLitera))
+            {
+                uzyteLitery += wpisanaLitera;
 
+                if (wylosowaneHaslo.Contains(wpisanaLitera) && !hasloDoWyswietlenia.Contains(wpisanaLitera))
+                {
+                    for (int i = 0; i < wylosowaneHaslo.Length; i++)
+                    {
+                        if (wylosowaneHaslo[i] == wpisanaLitera)
+                        {
+                            hasloDoWyswietlenia = hasloDoWyswietlenia.Remove(i, 1);
+                            hasloDoWyswietlenia = hasloDoWyswietlenia.Insert(i, wpisanaLitera.ToString());
+                            liczbaOdslonietychLiter++;
+                        }
+                    }
+                }
+                else
+                {
+                    liczbaPomylek++;
 
-            
+                    if (liczbaPomylek == rysunkiWisielca.Count - 1)
+                    {
+                        Console.Clear();
+                        Console.WriteLine(rysunkiWisielca[liczbaPomylek]);
+                        Console.WriteLine($"Niestety przegrałeś. Hasłem było: '{wylosowaneHaslo}'");
+                        return (false, liczbaProb, liczbaPomylek, liczbaOdslonietychLiter);
+                    }
+                }
+            }
+            else
+            {
+                Console.WriteLine("Ta litera została już użyta. Spróbuj ponownie.");
+                Thread.Sleep(1200);
+            }
         }
+
+        Console.Clear();
+        Console.WriteLine(hasloDoWyswietlenia);
+        Console.WriteLine($"Brawo! Wygrałeś. Hasło: '{wylosowaneHaslo}'");
+        return (true, liczbaProb, liczbaPomylek, liczbaOdslonietychLiter);
     }
 }
