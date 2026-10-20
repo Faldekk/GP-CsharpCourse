@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Threading;
 
+// Lekcja jest w pliku StrukturyDanych. Tu macie AI-generated żart z użyciem kolejki
+
 static void Main()
     {
         Console.OutputEncoding = System.Text.Encoding.UTF8;
@@ -22,7 +24,7 @@ static void Main()
             string nastepny = petycjonariusze.Dequeue();
             numerBiletiku++;
 
-            Console.Beep(800, 300); // Mały dźwiękowy pikacz z głośniczka systemowego (o ile działa)
+            Console.Beep(800, 300); 
             Console.WriteLine($"📢 Z GŁOŚNIKÓW: Osoba z biletikiem numer [ {numerBiletiku} ] do pokoju 104!");
             Console.WriteLine($"   -> Przy okienku pojawia się: {nastepny}"); 
             Thread.Sleep(2000);

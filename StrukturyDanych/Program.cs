@@ -2,11 +2,10 @@
 
 class Lekcja
 {
-    private static void Function_Queue()
+    public static void Function_Queue()
     {
         Console.WriteLine("=== SYSTEM ALGORYTMU TIKTOKA ===");
 
-        // KROK 1: Tworzymy kolejkę filmików (FIFO - First In, First Out)
         Queue<string> forYouPage = new();
         forYouPage.Enqueue("Kot grający na pianinie");
         forYouPage.Enqueue("Śmieszny fail na deskorolce");
@@ -19,7 +18,7 @@ class Lekcja
         {
             // TODO 1: Pobierz i usuń z kolejki pierwszy filmik z góry
             // Wskazówka: Użyj metody `.Dequeue()` na obiekcie forYouPage
-            string aktualnyFilm = "numer 1"; // WPISZ KOD TUTAJ -> zamień numer 1
+            string aktualnyFilm = forYouPage.Dequeue();
 
             Console.WriteLine($"\n📱 Oglądasz teraz: {aktualnyFilm}");
 
@@ -37,8 +36,7 @@ class Lekcja
             if (!string.IsNullOrEmpty(nowyFilm))
             {
                 // TODO 2: Dodaj nowy film na KONIEC kolejki algorytmu
-                // Wskazówka: Użyj metody `.Enqueue(nowyFilm)` na obiekcie forYouPage
-                // WPISZ KOD TUTAJ
+                forYouPage.Enqueue("Porady do minecrafta");
                 Console.WriteLine($" Twój film '{nowyFilm}' trafił do kolejki algorytmu!");
             }
 
@@ -58,7 +56,7 @@ class Lekcja
             Console.WriteLine("Obejrzałeś już wszystkie filmiki w internecie! Czas wyjść na dwór.");
         }
     }
-    protected static void UruchomPrzegladarke()
+    public static void UruchomPrzegladarke()
     {
         Console.WriteLine("=== HISTORIA PRZEGLĄDARKI (Stos / Stack) ===");
         Stack<string> historiaStron = new();
@@ -73,8 +71,7 @@ class Lekcja
             Console.Write("Chcesz kliknąć 'Wstecz'? (t/n): ");
             if (Console.ReadLine() == "t")
             {
-                // TODO 1: Usuń ze stosu obecną stronę, żeby wrócić do poprzedniej (Użyj .Pop())
-                string zamknietaStrona = "s"; // WPISZ KOD TUTAJ
+                string zamknietaStrona = historiaStron.Pop();
                 Console.WriteLine($"🔙 Wracasz! Zamknięto: {zamknietaStrona}");
                 Console.WriteLine($"Teraz jesteś na stronie: {historiaStron.Peek()}");
             }
@@ -85,7 +82,7 @@ class Lekcja
                 if (!string.IsNullOrEmpty(nowaStrona))
                 {
                     // TODO 2: Dodaj nową stronę na szczyt stosu (Użyj .Push(nowaStrona))
-                    // WPISZ KOD TUTAJ
+                    historiaStron.Push(nowaStrona);
                     Console.WriteLine($" Przeszedłeś do: {nowaStrona}");
                 }
             }
@@ -113,7 +110,7 @@ class Lekcja
         string szukanyPrzedmiot = Console.ReadLine();
 
         // TODO 1: Sprawdź czy słownik zawiera już taki klucz (Użyj .ContainsKey(szukanyPrzedmiot))
-        bool czyJest = true; // WPISZ KOD TUTAJ
+        bool czyJest = eq.ContainsKey(szukanyPrzedmiot); 
 
         if (czyJest)
         {
@@ -121,8 +118,7 @@ class Lekcja
         }
         else
         {
-            // TODO 2: Dodaj nowy przedmiot do słownika z wartością 1 (np. eq[szukanyPrzedmiot] = 1;)
-            // WPISZ KOD TUTAJ
+            eq[szukanyPrzedmiot] = 5;
             Console.WriteLine($"Nowy przedmiot {szukanyPrzedmiot} dodany do ekwipunku!");
         }
 
