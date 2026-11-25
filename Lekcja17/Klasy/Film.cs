@@ -14,7 +14,7 @@ class Film
     {
         Tytul = tytul;
         Gatunek = gatunek;
-        Rok = rok%4;
+        Rok = rok;
     } 
     // Metody 
     public void watched()
